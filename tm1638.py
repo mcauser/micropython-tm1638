@@ -1,4 +1,5 @@
 # MicroPython TM1638 LED display driver for 8x 7-segment decimal LED modules with 8x individual LEDs and 8x switches
+# 8x push buttons
 
 from micropython import const
 from machine import Pin

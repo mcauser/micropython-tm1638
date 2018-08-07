@@ -14,7 +14,7 @@ $ ampy put tm1638.py
 
 **Basic usage**
 
-```
+```python
 # Wemos D1 Mini / ESP8266
 import tm1638
 from machine import Pin
@@ -233,3 +233,7 @@ B6            | DIO
 * [TM1638 datasheet](http://titanmec.com/index.php/en/project/download/id/303.html)
 * [Titan Micro TM1638 product page](http://titanmec.com/index.php/en/project/view/id/303.html)
 * [Adafruit Ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy)
+
+## License
+
+Licensed under the [MIT License](http://opensource.org/licenses/MIT).
