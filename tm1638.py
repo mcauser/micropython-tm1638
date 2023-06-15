@@ -235,11 +235,14 @@ class TM1638(object):
         string = '{:08x}'.format(val & 0xffffffff)
         self.segments(self.encode_string(string))
 
-    def number(self, num):
+    def number(self, num, leading_zero = False): # add leading zero to number
         """Display a numeric value -9999999 through 99999999, right aligned."""
         # limit to range -9999999 to 99999999
         num = max(-9999999, min(num, 99999999))
-        string = '{0: >8d}'.format(num)
+        if leading_zero:            # if add leading zero
+            string = '%08d' % num   # using format string to add leading zero
+        else:
+            string = '{0: >8d}'.format(num)
         self.segments(self.encode_string(string))
 
     #def float(self, num):
