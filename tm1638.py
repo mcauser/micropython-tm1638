@@ -1,5 +1,37 @@
-# MicroPython TM1638 LED display driver for 8x 7-segment decimal LED modules with 8x individual LEDs and 8x switches
+"""
+MicroPython TM1638 7-segment LED display driver with keyscan
+https://github.com/mcauser/micropython-tm1638
+
+MIT License
+Copyright (c) 2018 Mike Causer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+
+# LED&KEY module features:
+# 8x 7-segment decimal LED modules
+# 8x individual LEDs
 # 8x push buttons
+
+# QYF-TM1638 module features:
+# 8x 7-segment decimal LED modules
+# 16x push buttons
 
 from micropython import const
 from machine import Pin
@@ -145,6 +177,21 @@ class TM1638(object):
         self._byte(TM1638_CMD1 | TM1638_READ)
         for i in range(4):
             keys |= self._scan_keys() << i
+        self.stb(1)
+        return keys
+
+    def qyf_keys(self):
+        """Return a 16-bit value representing which keys are pressed. LSB is SW1"""
+        keys = 0
+        self.stb(0)
+        self._byte(TM1638_CMD1 | TM1638_READ)
+        for i in range(4):
+            i_keys = self._scan_keys()
+            for k in range(2):
+                for j in range(2):
+                    x = (0x04 >> k) << j*4
+                    if i_keys & x == x:
+                        keys |= (1 << (j + k*8 + 2*i))
         self.stb(1)
         return keys
 

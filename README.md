@@ -8,13 +8,18 @@ A MicroPython library for LED&KEY modules with 8x 7-segment decimal LED modules,
 
 Copy the file to your device, using [ampy](https://github.com/adafruit/ampy), [rshell](https://github.com/dhylands/rshell), [webrepl](http://micropython.org/webrepl/) or compiling and deploying. eg.
 
-```
+```bash
 $ ampy put tm1638.py
 ```
 
 **Basic usage**
 
 ```python
+# TinyPICO / ESP32
+import tm1638
+from machine import Pin
+tm = tm1638.TM1638(stb=Pin(5), clk=Pin(18), dio=Pin(23))
+
 # Wemos D1 Mini / ESP8266
 import tm1638
 from machine import Pin
@@ -45,8 +50,11 @@ tm.brightness(0)
 # all LEDs and segments off
 tm.clear()
 
-# get which buttons are pressed
+# get which buttons are pressed on LED&KEY module
 tm.keys()
+
+# get which buttons are pressed on QYF-TM1638 module
+tm.qyf_keys()
 ```
 
 For more detailed examples, see [examples](/examples).
@@ -154,6 +162,11 @@ segments(segments, pos=0)
 Return a byte representing which keys are pressed. LSB is SW1.
 ```
 keys()
+```
+
+Return a 16-bit value representing which keys are pressed. LSB is SW1.
+```
+qyf_keys()
 ```
 
 Convert a single hex digit (0x00-0x0f) to a segment.

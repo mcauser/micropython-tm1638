@@ -37,7 +37,7 @@ tm._set_address(0)
 for i in range(256):
     tm._byte(i)
     sleep_ms(50)
-tm.stb(1) 
+tm.stb(1)
 
 # these methods reset to normal address increasing mode:
 # .clear, .write(), .leds(), .segments()
